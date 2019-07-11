@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BuildManager : MonoBehaviour {
     public TurretData laserBeamerData;
     public TurretData missileLauncherData;
     public TurretData standardTurretData;
-    public TurretData selectedTurretData;
-    public int money = 1000;
+    private TurretData selectedTurretData;
+    private int money = 1000;
+    public Text moneyText;
+    public Animator moneyAnimator;
 
     // Start is called before the first frame update
     void Start() {}
@@ -24,11 +27,13 @@ public class BuildManager : MonoBehaviour {
                     MapCube mapCube = hit.collider.GetComponent<MapCube>();
                     if (mapCube.turret == null) {
                         //Create
-                        if (money > selectedTurretData.cost) {
-                            money -= selectedTurretData.cost;
+                        if (money >= selectedTurretData.cost) {
+                            UpdateMoney(-selectedTurretData.cost);
                             mapCube.BuildTurret(selectedTurretData.turretPrefab);
+                            //Unhighlight
                         } else {
                             //Tip
+                            moneyAnimator.SetTrigger("NoMoney");
                         }
                     } else {
                         //Upgrade
@@ -36,6 +41,11 @@ public class BuildManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void UpdateMoney(int change = 0) {
+        money += change;
+        moneyText.text = money.ToString() + "B";
     }
 
     public void OnLaserBeamerSelected(bool isOn) {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapCube : MonoBehaviour {
     [HideInInspector]
     public GameObject turret;
+    public GameObject buildEffect;
 
     // Start is called before the first frame update
     void Start() {}
@@ -13,6 +14,8 @@ public class MapCube : MonoBehaviour {
     void Update() {}
 
     public void BuildTurret(GameObject turretPrefab) {
-        //
+        turret = Instantiate(turretPrefab, transform.position, Quaternion.identity);
+        GameObject effect = Instantiate(buildEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 1);
     }
 }
