@@ -25,17 +25,15 @@ public class BuildManager : MonoBehaviour {
                 bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("MapCube"));
                 if (isCollider) {
                     MapCube mapCube = hit.collider.GetComponent<MapCube>();
-                    if (mapCube.turret == null) {
+                    if (selectedTurretData != null && mapCube.turret == null) {
                         //Create
                         if (money >= selectedTurretData.cost) {
                             UpdateMoney(-selectedTurretData.cost);
                             mapCube.BuildTurret(selectedTurretData.turretPrefab);
-                            //Unhighlight
                         } else {
-                            //Tip
                             moneyAnimator.SetTrigger("NoMoney");
                         }
-                    } else {
+                    } else if (mapCube.turret != null) {
                         //Upgrade
                     }
                 }

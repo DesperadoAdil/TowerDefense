@@ -29,6 +29,10 @@ public class Enemy : MonoBehaviour {
     }
 
     private void onDestination() {
-        Destroy(this);
+        Destroy(gameObject);
+    }
+
+    public void Damage(int damage) {
+        //
     }
 }
