@@ -13,6 +13,11 @@ public class Bullet : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (target == null) {
+            Die();
+            return;
+        }    
+
         transform.LookAt(target.position);
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
@@ -24,9 +29,13 @@ public class Bullet : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (col.tag == "Enemy") {
             col.GetComponent<Enemy>().Damage(dps);
-            GameObject effect = Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
-            Destroy(effect, 1);
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    void Die() {
+        GameObject effect = Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
+        Destroy(effect, 1);
+        Destroy(gameObject);
     }
 }

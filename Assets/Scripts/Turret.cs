@@ -16,6 +16,10 @@ public class Turret : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (enemys.Count > 0 && enemys[0] == null)
+            for (int i = enemys.Count-1; i >= 0; i--)
+                if (enemys[i] == null) enemys.RemoveAt(i);
+
         timer += Time.deltaTime;
         if (enemys.Count > 0 && timer >= attackGap) {
             Attack();
